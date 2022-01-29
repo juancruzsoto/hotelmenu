@@ -69,7 +69,6 @@ export default function Home(props) {
           });
       });
     }
-
   }, []);
 
   useEffect(() => {
@@ -203,21 +202,46 @@ export default function Home(props) {
             Conforma tu menu
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography
-            gutterBottom
-            variant="h6"
-            // style={{ textAlign: "center" }}
-            className={classes.titleC}
+        {recipesID.length > 0 && !searchShow && (
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="flex-start"
           >
-            Precio: {menuStats["price"]}
-            Tiempo promedio: {menuStats["time"]}
-            Health Score: {menuStats["healthScore"]}
-          </Typography>
-          {/* {Object.keys(menuStats).map((skill) => {
-            console.log(menuStats[skill]);
-          })} */}
-        </Grid>
+            <Grid item xs={2}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                // style={{ textAlign: "center" }}
+                className={classes.titleC}
+              >
+                Precio: {menuStats["price"]}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                // style={{ textAlign: "center" }}
+                className={classes.titleC}
+              >
+                Tiempo promedio: {menuStats["time"]}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                // style={{ textAlign: "center" }}
+                className={classes.titleC}
+              >
+                Health Score: {menuStats["healthScore"]}
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
         {!searchShow ? (
           <Grid item xs={12}>
             <Box
