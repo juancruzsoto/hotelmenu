@@ -484,6 +484,76 @@ export default function Home(props) {
             </Paper>
           </Modal>
         </Grid>
+
+        <Grid item xs={12}>
+          <Modal
+            open={modalVegan}
+            onClose={() => setModalVegan(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            style={{
+              padding: "20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "absolute",
+            }}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Paper
+              variant="outlined"
+              style={{
+                position: "absolute",
+                maxWidth: 400,
+                backgroundColor: "#ffffff",
+                padding: "20px",
+                backgroundColor: "#e0e0e0",
+              }}
+            >
+              <Grid
+                container
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Grid item xs={4}>
+                  <Icon
+                    component={WarningIcon}
+                    style={{ fontSize: 100 }}
+                    color="primary"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography gutterBottom align="center" variant="h4">
+                    No se puede agregar este plato
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography gutterBottom align="center" variant="body1">
+                    Tu menú debe estar conformado por tres platos veganos y 3
+                    platos no veganos.
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    fullWidth={true}
+                    size="medium"
+                    variant="contained"
+                    color="success"
+                    onClick={() => setModalVegan(false)}
+                  >
+                    Aceptar
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Modal>
+        </Grid>
       </Grid>
     </Box>
   );

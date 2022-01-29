@@ -6,26 +6,24 @@ import { Button, Card, Container, Modal } from "react-bootstrap";
 import * as Yup from "yup";
 
 export default function Login(props) {
-
   const [modalShow, setModalShow] = useState(false);
-  
-  const handleLogin = (e) => {
 
+  const handleLogin = (e) => {
     axios
       .post("http://challenge-react.alkemy.org/", {
         email: e.email,
         password: e.password,
       })
       .then(function (response) {
-        localStorage.setItem("token",response.data.token)
-        props.setAuth(true)
+        localStorage.setItem("token", response.data.token);
+        props.setAuth(true);
         console.log(response);
-        console.log(localStorage.getItem('token'))
+        console.log(localStorage.getItem("token"));
       })
       .catch(function (error) {
         console.log(error);
-        localStorage.setItem("token",null)
-        setModalShow(true)
+        localStorage.setItem("token", null);
+        setModalShow(true);
       });
   };
 
@@ -38,6 +36,8 @@ export default function Login(props) {
             maxWidth: "600px",
             marginRight: "auto",
             marginLeft: "auto",
+            flexGrow: 1,
+            width: "100%",
           }}
         >
           <Card.Body>
@@ -58,7 +58,7 @@ export default function Login(props) {
                   .required("Password is required"),
               })}
               onSubmit={(fields) => {
-               handleLogin(fields)
+                handleLogin(fields);
               }}
               render={({ errors, status, touched }) => (
                 <Form>
@@ -78,7 +78,12 @@ export default function Login(props) {
                       className="invalid-feedback"
                     />
                   </div>
-                  <div className="form-group">
+                  <div
+                    className="form-group"
+                    style={{
+                      marginTop: "10px",
+                    }}
+                  >
                     <label htmlFor="password">Password</label>
                     <Field
                       name="password"
@@ -96,7 +101,13 @@ export default function Login(props) {
                       className="invalid-feedback"
                     />
                   </div>
-                  <div className="form-group">
+                  <div
+                    className="form-group"
+                    style={{
+                      textAlign: "center",
+                      marginTop: "10px",
+                    }}
+                  >
                     <button type="submit" className="btn btn-primary mr-2">
                       Enviar
                     </button>
@@ -107,27 +118,27 @@ export default function Login(props) {
           </Card.Body>
         </Card>
         <Modal
-      show={modalShow}
-      onHide={() => setModalShow(false)}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Error de Autenticación
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h6>Email y/o Password no coincide con ningún usuario registrado</h6>
-        <p>
-          Por favor, ingrese un Email y Password correcto.
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={() => setModalShow(false)}>Close</Button>
-      </Modal.Footer>
-    </Modal>
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Error de Autenticación
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h6>
+              Email y/o Password no coincide con ningún usuario registrado
+            </h6>
+            <p>Por favor, ingrese un Email y Password correcto.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setModalShow(false)}>Close</Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </div>
   );
