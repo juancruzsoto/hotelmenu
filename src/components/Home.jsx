@@ -109,12 +109,11 @@ export default function Home(props) {
       });
   };
 
-  const handleAddRecipe = (id) => {
-    console.log(id, "HOALASDAS");
+  const handleAddRecipe = (e) => {
     let recipesVegan = JSON.parse(localStorage.getItem("RecipesVegan"));
-    if (id !== "") {
+    if (e.target.id !== "") {
       axios
-        .get(URL + id + "/information/?apiKey=" + TOKEN_API)
+        .get(URL + e.target.id + "/information/?apiKey=" + TOKEN_API)
         .then((result) => {
           console.log(
             result.data.vegan,
@@ -125,10 +124,10 @@ export default function Home(props) {
             (result.data.vegan && recipesVegan + 1 < 4) ||
             (!result.data.vegan && recipesID.length - recipesVegan + 1 < 4)
           ) {
-            setRecipesID((currentRecipe) => currentRecipe.concat(id));
+            setRecipesID((currentRecipe) => currentRecipe.concat(e.target.id));
             localStorage.setItem(
               "Recipes",
-              JSON.stringify(recipesID.concat(id))
+              JSON.stringify(recipesID.concat(e.target.id))
             );
             setInfoCards((infocurrent) =>
               infocurrent.concat({
