@@ -90,19 +90,19 @@ export default function Home(props) {
 
   const handleChange = () => {
     setRows([]);
+    console.log(document.getElementById("outlined-search-input").value);
     axios
       .get(
         URL +
-          "/complexSearch?apiKey=" +
+          "complexSearch?apiKey=" +
           TOKEN_API +
           "&addRecipeInformation=true&query=" +
           document.getElementById("outlined-search-input").value +
           "&number=100"
       )
       .then((result) => {
-        if (result.data.response !== "error") {
+        console.log(result);
           setRows(result.data.results);
-        }
       })
       .catch((e) => {
         console.log("ERROR", e.message);

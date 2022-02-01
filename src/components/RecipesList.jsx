@@ -154,11 +154,11 @@ function RecipesList(props) {
                     >
                       <Button
                         variant="contained"
-                        value={[
-                          row.data.price,
-                          row.data.time,
-                          row.data.healthScore,
-                        ]}
+                        // value={[
+                        //   row.data.price,
+                        //   row.data.time,
+                        //   row.data.healthScore,
+                        // ]}
                         // onClick={}
                         className={classes.buttondelete}
                         startIcon={<InfoIcon />}
