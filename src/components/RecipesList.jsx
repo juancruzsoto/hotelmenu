@@ -58,7 +58,6 @@ function RecipesList(props) {
                   <ListItem
                     style={{
                       backgroundColor: row.vegan ? "#c8e6c9" : "#b3e5fc",
-                      maxHeight:"230px"
                     }}
                   >
                     <Grid
@@ -186,15 +185,14 @@ function RecipesList(props) {
                             handleViewDetails(
                               search
                                 ? {
-
-                                  price: row.pricePerServing,
-                                  time: row.readyInMinutes,
-                                  healthScore: row.healthScore,
+                                    price: row.pricePerServing,
+                                    time: row.readyInMinutes,
+                                    healthScore: row.healthScore,
                                   }
                                 : {
-                                  price: row.data.price,
-                                  time: row.data.time,
-                                  healthScore: row.data.healthScore,
+                                    price: row.data.price,
+                                    time: row.data.time,
+                                    healthScore: row.data.healthScore,
                                   }
                             );
                           }}
@@ -455,117 +453,117 @@ function RecipesList(props) {
         )}
         {!search && rows.length < 4 && (
           <div>
-          <ListItem>
-            <Grid
-              spacing={3}
-              container
-              direction="row"
-              justifyContent="space-around"
-              alignItems="center"
-            >
-              <Grid item xs={12} md={4} style={{ marginLeft: "30px" }}>
-                <Grid
-                  spacing={2}
-                  container
-                  direction="column"
-                  justifyContent="space-around"
-                >
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <Skeleton />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <Skeleton />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body">
-                      <Skeleton />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body">
-                      <Skeleton />
-                    </Typography>
+            <ListItem>
+              <Grid
+                spacing={3}
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="center"
+              >
+                <Grid item xs={12} md={4} style={{ marginLeft: "30px" }}>
+                  <Grid
+                    spacing={2}
+                    container
+                    direction="column"
+                    justifyContent="space-around"
+                  >
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={3}
-                style={{
-                  display: "flex",
-                  flexFlow: "column",
-                  justifyContent: "space-around",
-                }}
-              >
-                <Skeleton
-                  sx={{ height: 250 }}
-                  animation="wave"
-                  variant="rectangular"
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={10}
-                md={3}
-                style={{
-                  display: "flex",
-                  flexFlow: "column",
-                  justifyContent: "space-around",
-                  height: "150px",
-                }}
-              >
-                <Box
-                  sx={{
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  style={{
                     display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    flexFlow: "column",
+                    justifyContent: "space-around",
                   }}
                 >
-                  <Typography
-                    variant="h5"
-                    style={{
+                  <Skeleton
+                    sx={{ height: 250 }}
+                    animation="wave"
+                    variant="rectangular"
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={10}
+                  md={3}
+                  style={{
+                    display: "flex",
+                    flexFlow: "column",
+                    justifyContent: "space-around",
+                    height: "150px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
                       width: "100%",
+                      alignItems: "center",
                       justifyContent: "center",
                     }}
                   >
-                    Agrega un nuevo Plato
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    pl: 1,
-                    pb: 1,
-                    marginTop: "10px",
-                  }}
-                >
-                  <IconButton
-                    aria-label="delete"
-                    size="large"
-                    style={{ fontSize: 100 }}
-                  >
-                    <AddCircleIcon
-                      fontSize="inherit"
-                      onClick={() => {
-                        setSearchShow(true);
+                    <Typography
+                      variant="h5"
+                      style={{
+                        width: "100%",
+                        justifyContent: "center",
                       }}
-                    />
-                  </IconButton>
-                </Box>
+                    >
+                      Agrega un nuevo Plato
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      pl: 1,
+                      pb: 1,
+                      marginTop: "10px",
+                    }}
+                  >
+                    <IconButton
+                      aria-label="delete"
+                      size="large"
+                      style={{ fontSize: 100 }}
+                    >
+                      <AddCircleIcon
+                        fontSize="inherit"
+                        onClick={() => {
+                          setSearchShow(true);
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </ListItem>
+            </ListItem>
           </div>
         )}
       </List>
