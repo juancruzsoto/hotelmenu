@@ -11,6 +11,7 @@ import {
   Paper,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -461,7 +462,13 @@ function RecipesList(props) {
                 justifyContent="space-around"
                 alignItems="center"
               >
-                <Grid item xs={12} md={4} style={{ marginLeft: "30px" }}>
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  style={{ marginLeft: "30px" }}
+                  sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+                >
                   <Grid
                     spacing={2}
                     container
@@ -490,16 +497,14 @@ function RecipesList(props) {
                     </Grid>
                   </Grid>
                 </Grid>
+
                 <Grid
                   item
                   xs={12}
                   sm={6}
                   md={3}
-                  style={{
-                    display: "flex",
-                    flexFlow: "column",
-                    justifyContent: "space-around",
-                  }}
+                  sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+                  style={{}}
                 >
                   <Skeleton
                     sx={{ height: 250 }}
@@ -507,6 +512,7 @@ function RecipesList(props) {
                     variant="rectangular"
                   />
                 </Grid>
+
                 <Grid
                   item
                   xs={12}
@@ -517,6 +523,7 @@ function RecipesList(props) {
                     flexFlow: "column",
                     justifyContent: "space-around",
                     height: "150px",
+                    marginTop: "20px",
                   }}
                 >
                   <Box
@@ -532,6 +539,7 @@ function RecipesList(props) {
                       style={{
                         width: "100%",
                         justifyContent: "center",
+                        textAlign: "center",
                       }}
                     >
                       Agrega un nuevo Plato
