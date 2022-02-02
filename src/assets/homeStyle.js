@@ -6,21 +6,17 @@ const homeStyle = {
     flexGrow: 1,
   },
   card: {
-    minHeight: 400,
+    minHeight: 200,
     textAlign: "center",
     width: "100%",
-    marginTop: "50px",
     background: "#cfd8dc",
-    position: "absoute",
     opacity: 0.99,
   },
   cardC: {
     minHeight: 300,
     textAlign: "center",
     width: "100%",
-    marginTop: "50px",
     background: "#cfd8dc",
-    position: "absoute",
     opacity: 0.99,
   },
   title: {
@@ -28,12 +24,13 @@ const homeStyle = {
     fontFamily: "Century Gothic",
     textShadow: "1px 1px 2px black",
     fontWeight: 550,
-    marginTop: "80px",
+    marginTop: "65px",
   },
   titleC: {
     fontFamily: "Century Gothic",
     textShadow: "1px 1px 2px black",
     fontWeight: 550,
+   textAlign: "center"
   },
   text: {
     fontFamily: "Century Gothic",
@@ -43,13 +40,13 @@ const homeStyle = {
   listclass: {
     width: "100%",
     //maxHeight: "320px",
-    maxHeight: "550px",
+    maxHeight: "420px",
     //height: `${ window.screen.height * 0.4 }px`,
     position: "relative",
     overflow: "auto",
   },
   item: {
-    paddingTop: "20px",
+    paddingTop: "18px",
   },
 };
 

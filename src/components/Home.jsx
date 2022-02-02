@@ -121,8 +121,8 @@ export default function Home(props) {
             recipesID.length - recipesVegan + 1
           );
           if (
-            (result.data.vegan && recipesVegan + 1 < 4) ||
-            (!result.data.vegan && recipesID.length - recipesVegan + 1 < 4)
+            (result.data.vegan && recipesVegan + 1 < 3) ||
+            (!result.data.vegan && recipesID.length - recipesVegan + 1 < 3)
           ) {
             setRecipesID((currentRecipe) => currentRecipe.concat(e.target.id));
             localStorage.setItem(
@@ -188,9 +188,10 @@ export default function Home(props) {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <div className={classes.root}>
+    <Box sx={{ flexGrow: 1 }} >
       {/* {loading && <LoadScreen />} */}
-      <Grid container spacing={3} justifyContent="center" alignItems="flex-end">
+      <Grid container spacing={3} justifyContent="center" alignItems="flex-end" >
         <Grid item xs={12}>
           <Typography
             gutterBottom
@@ -204,43 +205,42 @@ export default function Home(props) {
         {recipesID.length > 0 && !searchShow && (
           <Grid
             container
-            spacing={2}
-            direction="row"
-            justifyContent="space-evenly"
+            justifyContent="center"
             alignItems="flex-start"
           >
-            <Grid item xs={2}>
+            <Grid item xs={12} md={4}>
               <Typography
                 gutterBottom
                 variant="h6"
                 // style={{ textAlign: "center" }}
                 className={classes.titleC}
               >
-                Precio: {menuStats["price"]}
+                Precio: {menuStats["price"].toFixed(2)}
               </Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={4}>
               <Typography
                 gutterBottom
                 variant="h6"
                 // style={{ textAlign: "center" }}
                 className={classes.titleC}
               >
-                Tiempo promedio: {menuStats["time"]}
+                Tiempo promedio: {menuStats["time"].toFixed(2)}
               </Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={4}>
               <Typography
                 gutterBottom
                 variant="h6"
                 // style={{ textAlign: "center" }}
                 className={classes.titleC}
               >
-                Health Score: {menuStats["healthScore"]}
+                HealthScore promedio: {menuStats["healthScore"].toFixed(2)}
               </Typography>
             </Grid>
           </Grid>
         )}
+
         {!searchShow ? (
           <Grid item xs={12}>
             <Box
@@ -248,9 +248,8 @@ export default function Home(props) {
                 display: "flex",
                 justifyContent: "center",
                 "& > :not(style)": {
-                  m: 1,
                   width: "100%",
-                  maxHeight: "550px",
+                  maxHeight: "420px",
                 },
               }}
             >
@@ -286,9 +285,8 @@ export default function Home(props) {
                 display: "flex",
                 justifyContent: "center",
                 "& > :not(style)": {
-                  m: 1,
                   width: "100%",
-                  minHeight: "550px",
+                  maxHeight: "420px",
                 },
               }}
             >
@@ -478,7 +476,7 @@ export default function Home(props) {
                   <Icon
                     component={WarningIcon}
                     style={{ fontSize: 100 }}
-                    color="primary"
+                    color="warning"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -488,77 +486,7 @@ export default function Home(props) {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography gutterBottom align="center" variant="body1">
-                    Tu menú debe estar conformado por tres platos veganos y 3
-                    platos no veganos.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Button
-                    fullWidth={true}
-                    size="medium"
-                    variant="contained"
-                    color="success"
-                    onClick={() => setModalVegan(false)}
-                  >
-                    Aceptar
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Modal>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Modal
-            open={modalVegan}
-            onClose={() => setModalVegan(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            style={{
-              padding: "20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-            }}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Paper
-              variant="outlined"
-              style={{
-                position: "absolute",
-                maxWidth: 400,
-                backgroundColor: "#ffffff",
-                padding: "20px",
-                backgroundColor: "#e0e0e0",
-              }}
-            >
-              <Grid
-                container
-                spacing={2}
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid item xs={4}>
-                  <Icon
-                    component={WarningIcon}
-                    style={{ fontSize: 100 }}
-                    color="primary"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom align="center" variant="h4">
-                    No se puede agregar este plato
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom align="center" variant="body1">
-                    Tu menú debe estar conformado por tres platos veganos y 3
+                    Tu menú debe estar conformado por dos platos veganos y dos
                     platos no veganos.
                   </Typography>
                 </Grid>
@@ -579,5 +507,6 @@ export default function Home(props) {
         </Grid>
       </Grid>
     </Box>
+    </div>
   );
 }
