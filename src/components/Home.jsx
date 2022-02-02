@@ -249,7 +249,7 @@ export default function Home(props) {
                 justifyContent: "center",
                 "& > :not(style)": {
                   width: "100%",
-                  maxHeight: "420px",
+                  maxHeight: "470px",
                 },
               }}
             >

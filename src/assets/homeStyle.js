@@ -30,7 +30,7 @@ const homeStyle = {
     fontFamily: "Century Gothic",
     textShadow: "1px 1px 2px black",
     fontWeight: 550,
-   textAlign: "center"
+    textAlign: "center",
   },
   text: {
     fontFamily: "Century Gothic",
@@ -40,7 +40,7 @@ const homeStyle = {
   listclass: {
     width: "100%",
     //maxHeight: "320px",
-    maxHeight: "420px",
+    maxHeight: "470px",
     //height: `${ window.screen.height * 0.4 }px`,
     position: "relative",
     overflow: "auto",
