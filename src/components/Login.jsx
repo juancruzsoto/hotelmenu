@@ -2,10 +2,16 @@ import axios from "axios";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 import React, { useState } from "react";
 import { Button, Card, Container, Modal } from "react-bootstrap";
+import { makeStyles } from "@mui/styles";
+import loginStyle from "../assets/loginStyle";
 
 import * as Yup from "yup";
 
+const useStyles = makeStyles(loginStyle);
+
 export default function Login(props) {
+  const classes = useStyles();
+
   const [modalShow, setModalShow] = useState(false);
 
   const handleLogin = (e) => {
@@ -28,17 +34,10 @@ export default function Login(props) {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <Container>
         <Card
-          style={{
-            marginTop: "150px",
-            maxWidth: "600px",
-            marginRight: "auto",
-            marginLeft: "auto",
-            flexGrow: 1,
-            width: "100%",
-          }}
+          className={classes.card}
         >
           <Card.Body>
             <Card.Title className="text-center">

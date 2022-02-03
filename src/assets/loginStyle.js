@@ -1,5 +1,5 @@
 import globalStyle from "./globalStyle";
-import background from "./img/bg2.jpg";
+import background from "./img/bg1.jpg";
 
 const homeStyle = {
   ...globalStyle,
@@ -17,10 +17,15 @@ const homeStyle = {
   },
   card: {
     minHeight: 200,
-    textAlign: "center",
     width: "100%",
     background: "#cfd8dc",
-    opacity: 0.99,
+    opacity: 0.98,
+    marginTop: "150px",
+    maxWidth: "600px",
+    marginRight: "auto",
+    marginLeft: "auto",
+    flexGrow: 1,
+    width: "100%",
   },
   cardC: {
     minHeight: 300,
@@ -37,9 +42,8 @@ const homeStyle = {
     marginTop: "65px",
   },
   titleC: {
-    color:"#e53935",
     fontFamily: "Century Gothic",
-    textShadow: "1px 1px 2px white",
+    textShadow: "1px 1px 2px black",
     fontWeight: 550,
    textAlign: "center"
   },

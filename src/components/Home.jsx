@@ -9,6 +9,7 @@ import {
   Modal,
   Paper,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -18,11 +19,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { TOKEN_API, URL } from "../config";
 import RecipesList from "./RecipesList";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const useStyles = makeStyles(homeStyle);
 
 export default function Home(props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const fw = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [auxRecipe, setAuxRecipe] = useState("");
   const [modalConfirmation, setModalConfirmation] = useState(false);
@@ -102,18 +107,18 @@ export default function Home(props) {
       )
       .then((result) => {
         console.log(result);
-          setRows(result.data.results);
+        setRows(result.data.results);
       })
       .catch((e) => {
         console.log("ERROR", e.message);
       });
   };
 
-  const handleAddRecipe = (e) => {
+  const handleAddRecipe = (id) => {
     let recipesVegan = JSON.parse(localStorage.getItem("RecipesVegan"));
-    if (e.target.id !== "") {
+    if (id !== "") {
       axios
-        .get(URL + e.target.id + "/information/?apiKey=" + TOKEN_API)
+        .get(URL + id + "/information/?apiKey=" + TOKEN_API)
         .then((result) => {
           console.log(
             result.data.vegan,
@@ -124,10 +129,10 @@ export default function Home(props) {
             (result.data.vegan && recipesVegan + 1 < 3) ||
             (!result.data.vegan && recipesID.length - recipesVegan + 1 < 3)
           ) {
-            setRecipesID((currentRecipe) => currentRecipe.concat(e.target.id));
+            setRecipesID((currentRecipe) => currentRecipe.concat(id));
             localStorage.setItem(
               "Recipes",
-              JSON.stringify(recipesID.concat(e.target.id))
+              JSON.stringify(recipesID.concat(id))
             );
             setInfoCards((infocurrent) =>
               infocurrent.concat({
@@ -169,9 +174,9 @@ export default function Home(props) {
     localStorage.setItem("Recipes", JSON.stringify(recipesnow));
 
     recipesnow = infoCards;
-
+    console.log(recipesnow)
     infoCards.map((Recipe) => {
-      if (Recipe.id.toString() === auxRecipe) {
+      if (Recipe.id === auxRecipe) {
         console.log(Recipe.vegan, "VEGANN");
         if (Recipe.vegan)
           localStorage.setItem(
@@ -181,7 +186,6 @@ export default function Home(props) {
       }
       recipesnow.splice(recipesnow.indexOf(Recipe), 1);
     });
-
     setInfoCards(recipesnow);
     setAuxRecipe("");
     setModalConfirmation(false);
@@ -189,148 +193,75 @@ export default function Home(props) {
 
   return (
     <div className={classes.root}>
-    <Box sx={{ flexGrow: 1 }} >
-      {/* {loading && <LoadScreen />} */}
-      <Grid container spacing={3} justifyContent="center" alignItems="flex-end" >
-        <Grid item xs={12}>
-          <Typography
-            gutterBottom
-            variant="h4"
-            style={{ textAlign: "center" }}
-            className={classes.title}
-          >
-            Conforma tu menu
-          </Typography>
-        </Grid>
-        {recipesID.length > 0 && !searchShow && (
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="flex-start"
-          >
-            <Grid item xs={12} md={4}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                // style={{ textAlign: "center" }}
-                className={classes.titleC}
-              >
-                Precio: {menuStats["price"].toFixed(2)}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                // style={{ textAlign: "center" }}
-                className={classes.titleC}
-              >
-                Tiempo promedio: {menuStats["time"].toFixed(2)}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                // style={{ textAlign: "center" }}
-                className={classes.titleC}
-              >
-                HealthScore promedio: {menuStats["healthScore"].toFixed(2)}
-              </Typography>
-            </Grid>
+      <Box sx={{ flexGrow: 1 }}>
+        {/* {loading && <LoadScreen />} */}
+        <Grid
+          container
+          spacing={3}
+          justifyContent="center"
+          alignItems="flex-end"
+        >
+          <Grid item xs={12}>
+            <Typography
+              gutterBottom
+              variant="h4"
+              style={{ textAlign: "center" }}
+              className={classes.title}
+            >
+              Conforma tu menu
+            </Typography>
           </Grid>
-        )}
+          {recipesID.length > 0 && !searchShow && (
+            <Grid container justifyContent="center" alignItems="flex-start">
+              <Grid item xs={12} md={4}>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  // style={{ textAlign: "center" }}
+                  className={classes.titleC}
+                >
+                  Precio: {menuStats["price"].toFixed(2)}$
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  // style={{ textAlign: "center" }}
+                  className={classes.titleC}
+                >
+                  Tiempo promedio: {menuStats["time"].toFixed(2)} mins
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  // style={{ textAlign: "center" }}
+                  className={classes.titleC}
+                >
+                  HealthScore promedio: {menuStats["healthScore"].toFixed(2)}
+                </Typography>
+              </Grid>
+            </Grid>
+          )}
 
-        {!searchShow ? (
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                "& > :not(style)": {
-                  width: "100%",
-                  maxHeight: "420px",
-                },
-              }}
-            >
-              <Paper
-                variant="outlined"
-                style={{ width: "95%", overflow: "hidden" }}
-              >
-                <Grid
-                  container
-                  spacing={3}
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  className={classes.item}
-                >
-                  <RecipesList
-                    rows={infoCards}
-                    classes={classes}
-                    search={false}
-                    setSearchShow={setSearchShow}
-                    handleDelete={handleDelete}
-                    setModalConfirmation={setModalConfirmation}
-                    setAuxRecipe={setAuxRecipe}
-                  />
-                </Grid>
-              </Paper>
-            </Box>
-          </Grid>
-        ) : (
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                "& > :not(style)": {
-                  width: "100%",
-                  maxHeight: "420px",
-                },
-              }}
-            >
-              <Paper
-                variant="outlined"
-                style={{ width: "95%", backgroundColor: "#e0e0e0" }}
-              >
-                <Box
-                  sx={{
-                    "& .MuiTextField-root": { m: 1, width: "25ch" },
-                    display: "flex",
+          {!searchShow ? (
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  "& > :not(style)": {
+                    m: 1,
                     width: "100%",
-                    alignItems: "center",
-                    pl: 1,
-                    pb: 1,
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => setSearchShow(false)}
-                    startIcon={<ArrowBackIosIcon />}
-                  >
-                    Cancelar
-                  </Button>
-                  <TextField
-                    id="outlined-search-input"
-                    label="Search"
-                    autoComplete="off"
-                    style={{ marginLeft: "auto", marginRight: "10px" }}
-                  />
-                  <Button
-                    variant="contained"
-                    onClick={handleChange}
-                    style={{ marginRight: "10px" }}
-                    startIcon={<SearchIcon />}
-                  >
-                    Search
-                  </Button>
-                </Box>
+                    maxHeight: "420px",
+                  },
+                }}
+              >
                 <Paper
-                  sx={{ width: "100%", overflow: "hidden", minHeight: "466px" }}
+                  variant="outlined"
+                  style={{ width: "95%", overflow: "hidden", opacity: "0.95" }}
                 >
                   <Grid
                     container
@@ -341,172 +272,281 @@ export default function Home(props) {
                     className={classes.item}
                   >
                     <RecipesList
-                      rows={rows}
+                      rows={infoCards}
                       classes={classes}
-                      search={true}
-                      handleAddRecipe={handleAddRecipe}
-                      recipesID={recipesID}
+                      search={false}
+                      setSearchShow={setSearchShow}
+                      setModalConfirmation={setModalConfirmation}
+                      setAuxRecipe={setAuxRecipe}
                     />
                   </Grid>
                 </Paper>
-              </Paper>
-            </Box>
-          </Grid>
-        )}
-
-        <Grid item xs={12}>
-          <Modal
-            open={modalConfirmation}
-            onClose={() => setModalConfirmation(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            style={{
-              padding: "20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-            }}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Paper
-              variant="outlined"
-              style={{
-                position: "absolute",
-                maxWidth: 400,
-                backgroundColor: "#ffffff",
-                padding: "20px",
-                backgroundColor: "#e0e0e0",
-              }}
-            >
-              <Grid
-                container
-                spacing={2}
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
+              </Box>
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "& > :not(style)": {
+                    m: 1,
+                    width: "100%",
+                    maxHeight: "550px",
+                  },
+                }}
               >
-                <Grid item xs={4}>
-                  <Icon
-                    component={WarningIcon}
-                    style={{ fontSize: 100 }}
-                    color="primary"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom align="center" variant="h4">
-                    Confirmar eliminar plato.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom align="center" variant="body1">
-                    ¿Estas seguro de querer eliminar este plato del menú?
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Button
-                    fullWidth={true}
-                    size="medium"
-                    variant="contained"
-                    color="error"
-                    onClick={() => {
-                      setModalConfirmation(false);
+                <Paper
+                  variant="outlined"
+                  style={{ width: "95%", backgroundColor: "#e0e0e0",opacity: "0.97", }}
+                >
+                  <Box
+                    sx={{
+                      pl: 1,
+                      pb: 1,
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Toolbar>
+                        <Grid
+                          container
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Grid item xs={12} sm={3}>
+                            <Button
+                              variant="contained"
+                              fullWidth={!fw}
+                              color="error"
+                              onClick={() => setSearchShow(false)}
+                              startIcon={<ArrowBackIosIcon />}
+                              sx={{
+                                flexGrow: 1,
+                                marginRight: "auto",
+                                marginTop: "5px",
+                              }}
+                            >
+                              Cancelar
+                            </Button>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={8.6}
+                            md={5.6}
+                            lg={4}
+                            style={{ marginTop: "10px" }}
+                          >
+                            <TextField
+                              fullWidth={!fw}
+                              id="outlined-search-input"
+                              label="Search"
+                              autoComplete="off"
+                              style={{
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Button
+                              variant="contained"
+                              fullWidth={!fw}
+                              onClick={handleChange}
+                              style={{ marginRight: "10px", marginTop: "10px" }}
+                              startIcon={<SearchIcon />}
+                            >
+                              Search
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Toolbar>
+                    </Box>
+                  </Box>
+                  <Paper
+                    sx={{
+                      width: "100%",
+                      overflow: "hidden",
+                      minHeight: "466px",
+                      opacity: "0.95",
                     }}
                   >
-                    Cancelar
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Button
-                    fullWidth={true}
-                    size="medium"
-                    variant="contained"
-                    color="success"
-                    onClick={handleDelete}
-                  >
-                    Confirmar
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Modal>
-        </Grid>
+                    <Grid
+                      container
+                      spacing={3}
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      className={classes.item}
+                    >
+                      <RecipesList
+                        rows={rows}
+                        classes={classes}
+                        search={true}
+                        handleAddRecipe={handleAddRecipe}
+                        recipesID={recipesID}
+                      />
+                    </Grid>
+                  </Paper>
+                </Paper>
+              </Box>
+            </Grid>
+          )}
 
-        <Grid item xs={12}>
-          <Modal
-            open={modalVegan}
-            onClose={() => setModalVegan(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            style={{
-              padding: "20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-            }}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Paper
-              variant="outlined"
+          <Grid item xs={12}>
+            <Modal
+              open={modalConfirmation}
+              onClose={() => setModalConfirmation(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
               style={{
-                position: "absolute",
-                maxWidth: 400,
-                backgroundColor: "#ffffff",
                 padding: "20px",
-                backgroundColor: "#e0e0e0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+              }}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
               }}
             >
-              <Grid
-                container
-                spacing={2}
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
+              <Paper
+                variant="outlined"
+                style={{
+                  position: "absolute",
+                  maxWidth: 400,
+                  backgroundColor: "#ffffff",
+                  padding: "20px",
+                  backgroundColor: "#e0e0e0",
+                }}
               >
-                <Grid item xs={4}>
-                  <Icon
-                    component={WarningIcon}
-                    style={{ fontSize: 100 }}
-                    color="warning"
-                  />
+                <Grid
+                  container
+                  spacing={2}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={4}>
+                    <Icon
+                      component={WarningIcon}
+                      style={{ fontSize: 100 }}
+                      color="primary"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom align="center" variant="h4">
+                      Confirmar eliminar plato.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom align="center" variant="body1">
+                      ¿Estas seguro de querer eliminar este plato del menú?
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Button
+                      fullWidth={true}
+                      size="medium"
+                      variant="contained"
+                      color="error"
+                      onClick={() => {
+                        setModalConfirmation(false);
+                      }}
+                    >
+                      Cancelar
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Button
+                      fullWidth={true}
+                      size="medium"
+                      variant="contained"
+                      color="success"
+                      onClick={handleDelete}
+                    >
+                      Confirmar
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom align="center" variant="h4">
-                    No se puede agregar este plato
-                  </Typography>
+              </Paper>
+            </Modal>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Modal
+              open={modalVegan}
+              onClose={() => setModalVegan(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              style={{
+                padding: "20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+              }}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Paper
+                variant="outlined"
+                style={{
+                  position: "absolute",
+                  maxWidth: 400,
+                  backgroundColor: "#ffffff",
+                  padding: "20px",
+                  backgroundColor: "#e0e0e0",
+                }}
+              >
+                <Grid
+                  container
+                  spacing={2}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={4}>
+                    <Icon
+                      component={WarningIcon}
+                      style={{ fontSize: 100 }}
+                      color="warning"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom align="center" variant="h4">
+                      No se puede agregar este plato
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom align="center" variant="body1">
+                      Tu menú debe estar conformado por dos platos veganos y dos
+                      platos no veganos.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Button
+                      fullWidth={true}
+                      size="medium"
+                      variant="contained"
+                      color="success"
+                      onClick={() => setModalVegan(false)}
+                    >
+                      Aceptar
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom align="center" variant="body1">
-                    Tu menú debe estar conformado por dos platos veganos y dos
-                    platos no veganos.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Button
-                    fullWidth={true}
-                    size="medium"
-                    variant="contained"
-                    color="success"
-                    onClick={() => setModalVegan(false)}
-                  >
-                    Aceptar
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Modal>
+              </Paper>
+            </Modal>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
     </div>
   );
 }

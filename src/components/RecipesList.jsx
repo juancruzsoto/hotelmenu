@@ -34,10 +34,9 @@ function RecipesList(props) {
   const [modalViewDetails, setModalViewDetails] = useState(false);
   const [recipeDetails, setRecipeDetails] = useState({});
 
-  const handleConfirmDelete = (e) => {
-    console.log(e.target.id);
+  const handleConfirmDelete = (id) => {
     setModalConfirmation(true);
-    setAuxRecipe(e.target.id);
+    setAuxRecipe(id);
   };
 
   const handleViewDetails = (details) => {
@@ -51,14 +50,13 @@ function RecipesList(props) {
       <List className={classes.listclass}>
         {rows.length > 0 &&
           rows.map((row, index) => {
-            // console.log(!recipesID.includes(row.id.toString()),row, "ASDAS")
-            if (!search || !recipesID.includes(row.id.toString())) {
+            if (!search || !recipesID.includes(row.id)) {
               return (
                 <div key={index}>
                   <ListItem
                     style={{
                       backgroundColor: row.vegan ? "#c8e6c9" : "#b3e5fc",
-                      maxHeight:"230px"
+                      minHeight:"230px"
                     }}
                   >
                     <Grid
@@ -152,8 +150,8 @@ function RecipesList(props) {
                         style={{
                           display: "flex",
                           flexFlow: "column",
-                          justifyContent: "space-around",
                           width: "100%",
+                          marginLeft:"25px"
                         }}
                       >
                         <img src={row.image} />
@@ -182,7 +180,6 @@ function RecipesList(props) {
                           //   row.healthScore,
                           // ]}
                           onClick={() => {
-                            console.log(row);
                             handleViewDetails(
                               search
                                 ? {
@@ -206,8 +203,8 @@ function RecipesList(props) {
                         <Button
                           id={row.id}
                           variant="contained"
-                          onClick={
-                            search ? handleAddRecipe : handleConfirmDelete
+                          onClick={() =>
+                            search ? handleAddRecipe(row.id) : handleConfirmDelete(row.id)
                           }
                           className={classes.buttondelete}
                           startIcon={search ? <AddIcon /> : <DeleteIcon />}
@@ -230,10 +227,10 @@ function RecipesList(props) {
                 spacing={3}
                 container
                 direction="row"
-                justifyContent="space-around"
+                justifyContent="center"
                 alignItems="center"
               >
-                <Grid item xs={12} md={4} style={{ marginLeft: "30px" }}>
+                <Grid item xs={12} md={4}>
                   <Grid
                     spacing={2}
                     container
@@ -346,7 +343,7 @@ function RecipesList(props) {
                 justifyContent="space-around"
                 alignItems="center"
               >
-                <Grid item xs={12} md={4} style={{ marginLeft: "30px" }}>
+                <Grid item xs={12} md={4} >
                   <Grid
                     spacing={2}
                     container
@@ -463,7 +460,7 @@ function RecipesList(props) {
               justifyContent="space-around"
               alignItems="center"
             >
-              <Grid item xs={12} md={4} style={{ marginLeft: "30px" }}>
+              <Grid item xs={12} md={4} sx={{ display: { xs: 'none', sm:'none', md: 'block' } }} >
                 <Grid
                   spacing={2}
                   container
@@ -497,11 +494,8 @@ function RecipesList(props) {
                 xs={12}
                 sm={6}
                 md={3}
-                style={{
-                  display: "flex",
-                  flexFlow: "column",
-                  justifyContent: "space-around",
-                }}
+                sx={{ display: { xs: 'none', sm:'none', md: 'block' } }}
+
               >
                 <Skeleton
                   sx={{ height: 250 }}
@@ -532,8 +526,12 @@ function RecipesList(props) {
                   <Typography
                     variant="h5"
                     style={{
+                      display: "flex",
+                      flexFlow: "column",
                       width: "100%",
                       justifyContent: "center",
+                      textAlign:"center",
+                      marginTop:"50px"
                     }}
                   >
                     Agrega un nuevo Plato
