@@ -11,6 +11,7 @@ import {
   Paper,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -183,15 +184,14 @@ function RecipesList(props) {
                             handleViewDetails(
                               search
                                 ? {
-
-                                  price: row.pricePerServing,
-                                  time: row.readyInMinutes,
-                                  healthScore: row.healthScore,
+                                    price: row.pricePerServing,
+                                    time: row.readyInMinutes,
+                                    healthScore: row.healthScore,
                                   }
                                 : {
-                                  price: row.data.price,
-                                  time: row.data.time,
-                                  healthScore: row.data.healthScore,
+                                    price: row.data.price,
+                                    time: row.data.time,
+                                    healthScore: row.data.healthScore,
                                   }
                             );
                           }}
@@ -462,30 +462,38 @@ function RecipesList(props) {
             >
               <Grid item xs={12} md={4} sx={{ display: { xs: 'none', sm:'none', md: 'block' } }} >
                 <Grid
-                  spacing={2}
-                  container
-                  direction="column"
-                  justifyContent="space-around"
+                  item
+                  xs={12}
+                  md={4}
+                  style={{ marginLeft: "30px" }}
+                  sx={{ display: { xs: "none", sm: "none", md: "block" } }}
                 >
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <Skeleton />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <Skeleton />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body">
-                      <Skeleton />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body">
-                      <Skeleton />
-                    </Typography>
+                  <Grid
+                    spacing={2}
+                    container
+                    direction="column"
+                    justifyContent="space-around"
+                  >
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -518,9 +526,10 @@ function RecipesList(props) {
                 <Box
                   sx={{
                     display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    flexFlow: "column",
+                    justifyContent: "space-around",
+                    height: "150px",
+                    marginTop: "20px",
                   }}
                 >
                   <Typography
@@ -529,41 +538,42 @@ function RecipesList(props) {
                       display: "flex",
                       flexFlow: "column",
                       width: "100%",
+                      alignItems: "center",
                       justifyContent: "center",
                       textAlign:"center",
                       marginTop:"50px"
                     }}
+                    >
+                      Agrega un nuevo Plato
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      pl: 1,
+                      pb: 1,
+                      marginTop: "10px",
+                    }}
                   >
-                    Agrega un nuevo Plato
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    pl: 1,
-                    pb: 1,
-                    marginTop: "10px",
-                  }}
-                >
-                  <IconButton
-                    aria-label="delete"
-                    size="large"
-                    style={{ fontSize: 100 }}
-                  >
-                    <AddCircleIcon
-                      fontSize="inherit"
-                      onClick={() => {
-                        setSearchShow(true);
-                      }}
-                    />
-                  </IconButton>
-                </Box>
+                    <IconButton
+                      aria-label="delete"
+                      size="large"
+                      style={{ fontSize: 100 }}
+                    >
+                      <AddCircleIcon
+                        fontSize="inherit"
+                        onClick={() => {
+                          setSearchShow(true);
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </ListItem>
+            </ListItem>
           </div>
         )}
       </List>
