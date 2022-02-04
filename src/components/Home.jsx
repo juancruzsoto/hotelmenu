@@ -21,6 +21,7 @@ import { TOKEN_API, URL } from "../config";
 import RecipesList from "./RecipesList";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { CleaningServices } from "@mui/icons-material";
 
 const useStyles = makeStyles(homeStyle);
 
@@ -44,6 +45,7 @@ export default function Home(props) {
 
   useEffect(() => {
     let idR = JSON.parse(localStorage.getItem("Recipes"));
+    console.log("UNA VEZ")
     if (idR) {
       setRecipesID(idR);
       idR.map((ID) => {
@@ -75,14 +77,15 @@ export default function Home(props) {
       });
     }
   }, []);
-
+// como??, no me acuerdo, miremos xd, QUda 1 y 1, pq recargue
   useEffect(() => {
     let dataMenu = {
       price: 0.0,
       time: 0.0,
       healthScore: 0.0,
     };
-    infoCards.map((Recipe) => {
+    let infC = infoCards
+    infC.map((Recipe) => {
       console.log(Recipe);
       Object.keys(Recipe.data).map((value) => {
         dataMenu[value] = dataMenu[value] + parseFloat(Recipe.data[value]);
@@ -91,6 +94,7 @@ export default function Home(props) {
     dataMenu.time = dataMenu.time / recipesID.length;
     dataMenu.healthScore = dataMenu.healthScore / recipesID.length;
     setMenuStats(dataMenu);
+    console.log("ENTRE",infoCards,recipesID)
   }, [infoCards, recipesID]);
 
   const handleChange = () => {
@@ -166,16 +170,18 @@ export default function Home(props) {
   };
 
   const handleDelete = () => {
+    console.log(recipesID, JSON.parse(localStorage.getItem("RecipesVegan")));
     let recipesnow = recipesID;
     let recipesVegan = JSON.parse(localStorage.getItem("RecipesVegan"));
     console.log(auxRecipe);
     recipesnow.splice(recipesnow.indexOf(auxRecipe), 1);
-    setRecipesID(recipesnow);
+    console.log("JAZ",recipesnow);
     localStorage.setItem("Recipes", JSON.stringify(recipesnow));
 
-    recipesnow = infoCards;
-    console.log(recipesnow)
-    infoCards.map((Recipe) => {
+    let recipesnow2 = infoCards;
+    console.log(recipesnow2);
+    console.log(infoCards);
+    recipesnow2.map((Recipe) => {
       if (Recipe.id === auxRecipe) {
         console.log(Recipe.vegan, "VEGANN");
         if (Recipe.vegan)
@@ -184,9 +190,11 @@ export default function Home(props) {
             JSON.stringify(recipesVegan - 1)
           );
       }
-      recipesnow.splice(recipesnow.indexOf(Recipe), 1);
+      recipesnow2.splice(recipesnow2.indexOf(Recipe), 1);
     });
-    setInfoCards(recipesnow);
+    console.log(recipesnow2);
+    setRecipesID(recipesnow);
+    setInfoCards(recipesnow2);
     setAuxRecipe("");
     setModalConfirmation(false);
   };
@@ -271,6 +279,7 @@ export default function Home(props) {
                     alignItems="center"
                     className={classes.item}
                   >
+                    {console.log(infoCards)}
                     <RecipesList
                       rows={infoCards}
                       classes={classes}
@@ -299,7 +308,11 @@ export default function Home(props) {
               >
                 <Paper
                   variant="outlined"
-                  style={{ width: "95%", backgroundColor: "#e0e0e0",opacity: "0.97", }}
+                  style={{
+                    width: "95%",
+                    backgroundColor: "#e0e0e0",
+                    opacity: "0.97",
+                  }}
                 >
                   <Box
                     sx={{
@@ -397,7 +410,7 @@ export default function Home(props) {
           <Grid item xs={12}>
             <Modal
               open={modalConfirmation}
-              onClose={() => setModalConfirmation(false)}
+              onClose={() => {setModalConfirmation(false); console.log(infoCards)}}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
               style={{

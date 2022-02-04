@@ -36,6 +36,7 @@ function RecipesList(props) {
   const [recipeDetails, setRecipeDetails] = useState({});
 
   const handleConfirmDelete = (id) => {
+    console.log(id)
     setModalConfirmation(true);
     setAuxRecipe(id);
   };
@@ -49,6 +50,7 @@ function RecipesList(props) {
   return (
     <>
       <List className={classes.listclass}>
+        {console.log(rows)}
         {rows.length > 0 &&
           rows.map((row, index) => {
             if (!search || !recipesID.includes(row.id)) {
@@ -206,6 +208,7 @@ function RecipesList(props) {
                           onClick={() =>
                             search ? handleAddRecipe(row.id) : handleConfirmDelete(row.id)
                           }
+                          //la variable es para abrir el modal
                           className={classes.buttondelete}
                           startIcon={search ? <AddIcon /> : <DeleteIcon />}
                           color={search ? "success" : "error"}
