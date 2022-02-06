@@ -45,7 +45,7 @@ export default function Home(props) {
 
   useEffect(() => {
     let idR = JSON.parse(localStorage.getItem("Recipes"));
-    console.log("UNA VEZ")
+    console.log("UNA VEZ");
     if (idR) {
       setRecipesID(idR);
       idR.map((ID) => {
@@ -77,14 +77,14 @@ export default function Home(props) {
       });
     }
   }, []);
-// como??, no me acuerdo, miremos xd, QUda 1 y 1, pq recargue
+  // como??, no me acuerdo, miremos xd, QUda 1 y 1, pq recargue
   useEffect(() => {
     let dataMenu = {
       price: 0.0,
       time: 0.0,
       healthScore: 0.0,
     };
-    let infC = infoCards
+    let infC = infoCards;
     infC.map((Recipe) => {
       console.log(Recipe);
       Object.keys(Recipe.data).map((value) => {
@@ -94,7 +94,7 @@ export default function Home(props) {
     dataMenu.time = dataMenu.time / recipesID.length;
     dataMenu.healthScore = dataMenu.healthScore / recipesID.length;
     setMenuStats(dataMenu);
-    console.log("ENTRE",infoCards,recipesID)
+    console.log("ENTRE", infoCards, recipesID);
   }, [infoCards, recipesID]);
 
   const handleChange = () => {
@@ -175,12 +175,13 @@ export default function Home(props) {
     let recipesVegan = JSON.parse(localStorage.getItem("RecipesVegan"));
     console.log(auxRecipe);
     recipesnow.splice(recipesnow.indexOf(auxRecipe), 1);
-    console.log("JAZ",recipesnow);
+    console.log("JAZ", recipesnow);
     localStorage.setItem("Recipes", JSON.stringify(recipesnow));
 
     let recipesnow2 = infoCards;
     console.log(recipesnow2);
     console.log(infoCards);
+
     recipesnow2.map((Recipe) => {
       if (Recipe.id === auxRecipe) {
         console.log(Recipe.vegan, "VEGANN");
@@ -189,8 +190,8 @@ export default function Home(props) {
             "RecipesVegan",
             JSON.stringify(recipesVegan - 1)
           );
+        recipesnow2.splice(recipesnow2.indexOf(Recipe), 1);
       }
-      recipesnow2.splice(recipesnow2.indexOf(Recipe), 1);
     });
     console.log(recipesnow2);
     setRecipesID(recipesnow);
@@ -410,7 +411,10 @@ export default function Home(props) {
           <Grid item xs={12}>
             <Modal
               open={modalConfirmation}
-              onClose={() => {setModalConfirmation(false); console.log(infoCards)}}
+              onClose={() => {
+                setModalConfirmation(false);
+                console.log(infoCards);
+              }}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
               style={{
