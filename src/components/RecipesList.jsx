@@ -35,13 +35,11 @@ function RecipesList(props) {
   const [recipeDetails, setRecipeDetails] = useState({});
 
   const handleConfirmDelete = (id) => {
-    console.log(id)
     setModalConfirmation(true);
     setAuxRecipe(id);
   };
 
   const handleViewDetails = (details) => {
-    console.log(details);
     setRecipeDetails(details);
     setModalViewDetails(true);
   };
@@ -49,7 +47,6 @@ function RecipesList(props) {
   return (
     <>
       <List className={classes.listclass}>
-        {console.log(rows)}
         {rows.length > 0 &&
           rows.map((row, index) => {
             if (!search || !recipesID.includes(row.id)) {
@@ -58,7 +55,7 @@ function RecipesList(props) {
                   <ListItem
                     style={{
                       backgroundColor: row.vegan ? "#c8e6c9" : "#b3e5fc",
-                      minHeight:"230px"
+                      minHeight: "230px",
                     }}
                   >
                     <Grid
@@ -153,10 +150,10 @@ function RecipesList(props) {
                           display: "flex",
                           flexFlow: "column",
                           width: "100%",
-                          marginLeft:"25px"
+                          marginLeft: "25px",
                         }}
                       >
-                        <img src={row.image} />
+                        <img src={row.image} alt={row.title} />
                       </Grid>
                       <Grid
                         item
@@ -205,7 +202,9 @@ function RecipesList(props) {
                           id={row.id}
                           variant="contained"
                           onClick={() =>
-                            search ? handleAddRecipe(row.id) : handleConfirmDelete(row.id)
+                            search
+                              ? handleAddRecipe(row.id)
+                              : handleConfirmDelete(row.id)
                           }
                           //la variable es para abrir el modal
                           className={classes.buttondelete}
@@ -229,7 +228,7 @@ function RecipesList(props) {
                 spacing={3}
                 container
                 direction="row"
-                justifyContent="center"
+                justifyContent="space-around"
                 alignItems="center"
               >
                 <Grid item xs={12} md={4}>
@@ -345,7 +344,7 @@ function RecipesList(props) {
                 justifyContent="space-around"
                 alignItems="center"
               >
-                <Grid item xs={12} md={4} >
+                <Grid item xs={12} md={4}>
                   <Grid
                     spacing={2}
                     container
@@ -454,97 +453,101 @@ function RecipesList(props) {
         )}
         {!search && rows.length < 4 && (
           <div>
-          <ListItem>
-            <Grid
-              spacing={3}
-              container
-              direction="row"
-              justifyContent="space-around"
-              alignItems="center"
-            >
-              <Grid item xs={12} md={4} sx={{ display: { xs: 'none', sm:'none', md: 'block' } }} >
+            <ListItem>
+              <Grid
+                spacing={3}
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="center"
+              >
                 <Grid
                   item
                   xs={12}
                   md={4}
-                  style={{ marginLeft: "30px" }}
                   sx={{ display: { xs: "none", sm: "none", md: "block" } }}
                 >
                   <Grid
-                    spacing={2}
-                    container
-                    direction="column"
-                    justifyContent="space-around"
+                    item
+                    xs={12}
+                    md={4}
+                    style={{ marginLeft: "30px" }}
+                    sx={{ display: { xs: "none", sm: "none", md: "block" } }}
                   >
-                    <Grid item xs={12}>
-                      <Typography variant="h3">
-                        <Skeleton />
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="h3">
-                        <Skeleton />
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="body">
-                        <Skeleton />
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="body">
-                        <Skeleton />
-                      </Typography>
+                    <Grid
+                      spacing={2}
+                      container
+                      direction="column"
+                      justifyContent="space-around"
+                    >
+                      <Grid item xs={12}>
+                        <Typography variant="h3">
+                          <Skeleton />
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h3">
+                          <Skeleton />
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body">
+                          <Skeleton />
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body">
+                          <Skeleton />
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={3}
-                sx={{ display: { xs: 'none', sm:'none', md: 'block' } }}
-
-              >
-                <Skeleton
-                  sx={{ height: 250 }}
-                  animation="wave"
-                  variant="rectangular"
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={10}
-                md={3}
-                style={{
-                  display: "flex",
-                  flexFlow: "column",
-                  justifyContent: "space-around",
-                  height: "150px",
-                }}
-              >
-                <Box
-                  sx={{
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+                >
+                  <Skeleton
+                    sx={{ height: 250 }}
+                    animation="wave"
+                    variant="rectangular"
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={10}
+                  md={3}
+                  style={{
                     display: "flex",
                     flexFlow: "column",
                     justifyContent: "space-around",
                     height: "150px",
-                    marginTop: "20px",
                   }}
                 >
-                  <Typography
-                    variant="h5"
-                    style={{
+                  <Box
+                    sx={{
                       display: "flex",
                       flexFlow: "column",
-                      width: "100%",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      textAlign:"center",
-                      marginTop:"50px"
+                      justifyContent: "space-around",
+                      height: "150px",
+                      marginTop: "20px",
                     }}
+                  >
+                    <Typography
+                      variant="h5"
+                      style={{
+                        display: "flex",
+                        flexFlow: "column",
+                        width: "100%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        marginTop: "50px",
+                      }}
                     >
                       Agrega un nuevo Plato
                     </Typography>
@@ -604,7 +607,6 @@ function RecipesList(props) {
             style={{
               position: "absolute",
               maxWidth: 400,
-              backgroundColor: "#ffffff",
               padding: "20px",
               backgroundColor: "#e0e0e0",
             }}

@@ -37,7 +37,7 @@ const homeStyle = {
     marginTop: "65px",
   },
   titleC: {
-    color:"#e53935",
+    color: "#e53935",
     fontFamily: "Century Gothic",
     textShadow: "1px 1px 2px white",
     fontWeight: 550,
@@ -51,7 +51,7 @@ const homeStyle = {
   listclass: {
     width: "100%",
     //maxHeight: "320px",
-    maxHeight: "470px",
+    maxHeight: "430px",
     //height: `${ window.screen.height * 0.4 }px`,
     position: "relative",
     overflow: "auto",

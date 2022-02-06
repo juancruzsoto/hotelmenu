@@ -8,7 +8,6 @@ import {
   Icon,
   Modal,
   Paper,
-  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -21,7 +20,8 @@ import { TOKEN_API, URL } from "../config";
 import RecipesList from "./RecipesList";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { CleaningServices } from "@mui/icons-material";
+import { Formik, ErrorMessage, Field, Form } from "formik";
+import * as Yup from "yup";
 
 const useStyles = makeStyles(homeStyle);
 
@@ -45,14 +45,13 @@ export default function Home(props) {
 
   useEffect(() => {
     let idR = JSON.parse(localStorage.getItem("Recipes"));
-    console.log("UNA VEZ");
+
     if (idR) {
       setRecipesID(idR);
       idR.map((ID) => {
-        axios
+        return axios
           .get(URL + ID + "/information/?apiKey=" + TOKEN_API)
           .then((result) => {
-            console.log(result);
             setInfoCards((infocurrent) =>
               infocurrent.concat({
                 id: result.data.id,
@@ -77,7 +76,7 @@ export default function Home(props) {
       });
     }
   }, []);
-  // como??, no me acuerdo, miremos xd, QUda 1 y 1, pq recargue
+
   useEffect(() => {
     let dataMenu = {
       price: 0.0,
@@ -86,20 +85,18 @@ export default function Home(props) {
     };
     let infC = infoCards;
     infC.map((Recipe) => {
-      console.log(Recipe);
-      Object.keys(Recipe.data).map((value) => {
-        dataMenu[value] = dataMenu[value] + parseFloat(Recipe.data[value]);
+      return Object.keys(Recipe.data).map((value) => {
+        return (dataMenu[value] =
+          dataMenu[value] + parseFloat(Recipe.data[value]));
       });
     });
     dataMenu.time = dataMenu.time / recipesID.length;
     dataMenu.healthScore = dataMenu.healthScore / recipesID.length;
     setMenuStats(dataMenu);
-    console.log("ENTRE", infoCards, recipesID);
   }, [infoCards, recipesID]);
 
   const handleChange = () => {
     setRows([]);
-    console.log(document.getElementById("outlined-search-input").value);
     axios
       .get(
         URL +
@@ -110,7 +107,6 @@ export default function Home(props) {
           "&number=100"
       )
       .then((result) => {
-        console.log(result);
         setRows(result.data.results);
       })
       .catch((e) => {
@@ -124,11 +120,6 @@ export default function Home(props) {
       axios
         .get(URL + id + "/information/?apiKey=" + TOKEN_API)
         .then((result) => {
-          console.log(
-            result.data.vegan,
-            recipesVegan + 1,
-            recipesID.length - recipesVegan + 1
-          );
           if (
             (result.data.vegan && recipesVegan + 1 < 3) ||
             (!result.data.vegan && recipesID.length - recipesVegan + 1 < 3)
@@ -170,30 +161,25 @@ export default function Home(props) {
   };
 
   const handleDelete = () => {
-    console.log(recipesID, JSON.parse(localStorage.getItem("RecipesVegan")));
     let recipesnow = recipesID;
     let recipesVegan = JSON.parse(localStorage.getItem("RecipesVegan"));
-    console.log(auxRecipe);
     recipesnow.splice(recipesnow.indexOf(auxRecipe), 1);
-    console.log("JAZ", recipesnow);
     localStorage.setItem("Recipes", JSON.stringify(recipesnow));
 
     let recipesnow2 = infoCards;
-    console.log(recipesnow2);
-    console.log(infoCards);
 
     recipesnow2.map((Recipe) => {
       if (Recipe.id === auxRecipe) {
-        console.log(Recipe.vegan, "VEGANN");
-        if (Recipe.vegan)
+        if (Recipe.vegan) {
           localStorage.setItem(
             "RecipesVegan",
             JSON.stringify(recipesVegan - 1)
           );
+        }
         recipesnow2.splice(recipesnow2.indexOf(Recipe), 1);
       }
     });
-    console.log(recipesnow2);
+
     setRecipesID(recipesnow);
     setInfoCards(recipesnow2);
     setAuxRecipe("");
@@ -280,7 +266,6 @@ export default function Home(props) {
                     alignItems="center"
                     className={classes.item}
                   >
-                    {console.log(infoCards)}
                     <RecipesList
                       rows={infoCards}
                       classes={classes}
@@ -355,24 +340,63 @@ export default function Home(props) {
                             lg={4}
                             style={{ marginTop: "10px" }}
                           >
-                            <TextField
-                              fullWidth={!fw}
-                              id="outlined-search-input"
-                              label="Search"
-                              autoComplete="off"
-                              style={{
-                                marginRight: "10px",
+                            <Formik
+                              initialValues={{
+                                search: "",
                               }}
+                              validationSchema={Yup.object().shape({
+                                search: Yup.string()
+                                  .min(
+                                    2,
+                                    "La cantidad de caracteres debe ser minimo 2"
+                                  )
+                                  .required("Texto de busqueda es requerido"),
+                              })}
+                              onSubmit={(fields) => {
+                                handleChange(fields);
+                              }}
+                              render={({ errors, status, touched }) => (
+                                <Form>
+                                  <div className="form-group">
+                                    <Field
+                                      id="outlined-search-input"
+                                      name="search"
+                                      type="text"
+                                      className={
+                                        "form-control" +
+                                        (errors.search && touched.search
+                                          ? " is-invalid"
+                                          : "")
+                                      }
+                                    />
+                                    <ErrorMessage
+                                      name="search"
+                                      component="div"
+                                      className="invalid-feedback"
+                                    />
+                                  </div>
+                                  <div
+                                    className="form-group"
+                                    style={{
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    <Button
+                                      variant="contained"
+                                      type="submit"
+                                      fullWidth={!fw}
+                                      style={{
+                                        marginRight: "10px",
+                                        marginTop: "10px",
+                                      }}
+                                      startIcon={<SearchIcon />}
+                                    >
+                                      Search
+                                    </Button>
+                                  </div>
+                                </Form>
+                              )}
                             />
-                            <Button
-                              variant="contained"
-                              fullWidth={!fw}
-                              onClick={handleChange}
-                              style={{ marginRight: "10px", marginTop: "10px" }}
-                              startIcon={<SearchIcon />}
-                            >
-                              Search
-                            </Button>
                           </Grid>
                         </Grid>
                       </Toolbar>
@@ -382,7 +406,7 @@ export default function Home(props) {
                     sx={{
                       width: "100%",
                       overflow: "hidden",
-                      minHeight: "466px",
+                      maxHeight: "430px",
                       opacity: "0.95",
                     }}
                   >
@@ -413,7 +437,6 @@ export default function Home(props) {
               open={modalConfirmation}
               onClose={() => {
                 setModalConfirmation(false);
-                console.log(infoCards);
               }}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
@@ -435,7 +458,6 @@ export default function Home(props) {
                 style={{
                   position: "absolute",
                   maxWidth: 400,
-                  backgroundColor: "#ffffff",
                   padding: "20px",
                   backgroundColor: "#e0e0e0",
                 }}
@@ -517,7 +539,6 @@ export default function Home(props) {
                 style={{
                   position: "absolute",
                   maxWidth: 400,
-                  backgroundColor: "#ffffff",
                   padding: "20px",
                   backgroundColor: "#e0e0e0",
                 }}

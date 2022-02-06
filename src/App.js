@@ -22,7 +22,7 @@ useEffect(() => {
 
 
 
-console.log(auth)
+
   return (
     <Router>
       <Routes>

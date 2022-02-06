@@ -23,8 +23,6 @@ export default function Login(props) {
       .then(function (response) {
         localStorage.setItem("token", response.data.token);
         props.setAuth(true);
-        console.log(response);
-        console.log(localStorage.getItem("token"));
       })
       .catch(function (error) {
         console.log(error);

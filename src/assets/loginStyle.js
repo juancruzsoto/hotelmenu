@@ -8,7 +8,6 @@ const homeStyle = {
     width: "100%",
     height: "100vh",
     overflow: "hidden",
-    backgroundSize: "100vw 100vh",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "bottom",
     backgroundAttachment: "fixed",
