@@ -15,20 +15,37 @@ export default function Login(props) {
   const [modalShow, setModalShow] = useState(false);
 
   const handleLogin = (e) => {
-    axios
-      .post("http://challenge-react.alkemy.org/", {
+    axios({
+      method: "post",
+      url: "http://challenge-react.alkemy.org/",
+      data: {
         email: e.email,
         password: e.password,
-      })
-      .then(function (response) {
+      },
+    })
+      .then((response) => {
         localStorage.setItem("token", response.data.token);
         props.setAuth(true);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
         localStorage.setItem("token", null);
         setModalShow(true);
       });
+    // axios
+    //   .post("http://challenge-react.alkemy.org/", {
+    //     email: e.email,
+    //     password: e.password,
+    //   })
+    //   .then(function (response) {
+    //     localStorage.setItem("token", response.data.token);
+    //     props.setAuth(true);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     localStorage.setItem("token", null);
+    //     setModalShow(true);
+    //   });
   };
 
   return (
