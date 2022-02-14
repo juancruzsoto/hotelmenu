@@ -26,8 +26,8 @@ import * as Yup from "yup";
 const useStyles = makeStyles(homeStyle);
 
 export default function Home(props) {
-  const classes = useStyles();
   const theme = useTheme();
+  const classes = useStyles();
   const fw = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [auxRecipe, setAuxRecipe] = useState("");
@@ -200,7 +200,7 @@ export default function Home(props) {
             <Typography
               gutterBottom
               variant="h4"
-              style={{ textAlign: "center" }}
+              style={{ textAlign: "center", marginTop: "80px" }}
               className={classes.title}
             >
               Conforma tu menu
@@ -250,7 +250,7 @@ export default function Home(props) {
                   "& > :not(style)": {
                     m: 1,
                     width: "100%",
-                    maxHeight: "420px",
+                    maxHeight: "440px",
                   },
                 }}
               >
@@ -288,7 +288,7 @@ export default function Home(props) {
                   "& > :not(style)": {
                     m: 1,
                     width: "100%",
-                    maxHeight: "550px",
+                    maxHeight: "525px",
                   },
                 }}
               >
@@ -298,6 +298,7 @@ export default function Home(props) {
                     width: "95%",
                     backgroundColor: "#e0e0e0",
                     opacity: "0.97",
+                    marginTop: "-30px",
                   }}
                 >
                   <Box
@@ -402,31 +403,31 @@ export default function Home(props) {
                       </Toolbar>
                     </Box>
                   </Box>
-                  <Paper
-                    sx={{
-                      width: "100%",
-                      overflow: "hidden",
-                      maxHeight: "430px",
-                      opacity: "0.95",
-                    }}
-                  >
-                    <Grid
-                      container
-                      spacing={3}
-                      direction="column"
-                      justifyContent="center"
-                      alignItems="center"
-                      className={classes.item}
+
+                    <Paper
+                      sx={{
+                        width: "100%",
+                        overflow: "hidden",
+                        opacity: "0.95",
+                      }}
                     >
-                      <RecipesList
-                        rows={rows}
-                        classes={classes}
-                        search={true}
-                        handleAddRecipe={handleAddRecipe}
-                        recipesID={recipesID}
-                      />
-                    </Grid>
-                  </Paper>
+                      <Grid
+                        container
+                        spacing={3}
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        className={classes.item}
+                      >
+                        <RecipesList
+                          rows={rows}
+                          classes={classes}
+                          search={true}
+                          handleAddRecipe={handleAddRecipe}
+                          recipesID={recipesID}
+                        />
+                      </Grid>
+                    </Paper>
                 </Paper>
               </Box>
             </Grid>

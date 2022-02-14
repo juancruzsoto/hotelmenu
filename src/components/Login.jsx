@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 import React, { useState } from "react";
 import { Button, Card, Container, Modal } from "react-bootstrap";
@@ -15,52 +14,40 @@ export default function Login(props) {
   const [modalShow, setModalShow] = useState(false);
 
   const handleLogin = (e) => {
-
-    // axios({
-    //   method: "post",
-    //   url: "http://challenge-react.alkemy.org/",
-    //   data: {
-    //     email: e.email,
-    //     password: e.password,
-    //   },
-    // })
-    //   .then((response) => {
-    //     localStorage.setItem("token", response.data.token);
-    //     props.setAuth(true);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     localStorage.setItem("token", null);
-    //     setModalShow(true);
-    //   });
-    
-    axios
-      .post("http://challenge-react.alkemy.org/", {
+    fetch("http://challenge-react.alkemy.org/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         email: e.email,
         password: e.password,
-      },{
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'JWT fefege...'
+      }),
+    })
+      .then(async (response) => {
+        const isJson = response.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson && (await response.json());
+        // check for error response
+        if (!response.ok) {
+          setModalShow(true);
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
         }
-      })
-      .then(function (response) {
-        localStorage.setItem("token", response.data.token);
+
+        localStorage.setItem("token", data.token);
         props.setAuth(true);
       })
-      .catch(function (error) {
-        console.log("ERROR: ",error);
-        localStorage.setItem("token", null);
-        setModalShow(true);
+      .catch((error) => {
+        this.setState({ errorMessage: error.toString() });
+        console.error("There was an error!", error);
       });
   };
 
   return (
     <div className={classes.root}>
       <Container>
-        <Card
-          className={classes.card}
-        >
+        <Card className={classes.card}>
           <Card.Body>
             <Card.Title className="text-center">
               <h1>Login</h1>

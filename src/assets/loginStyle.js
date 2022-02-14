@@ -19,7 +19,7 @@ const homeStyle = {
     width: "100%",
     background: "#cfd8dc",
     opacity: 0.98,
-    marginTop: "150px",
+    marginTop: "30vh",
     maxWidth: "600px",
     marginRight: "auto",
     marginLeft: "auto",

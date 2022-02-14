@@ -46,7 +46,7 @@ function RecipesList(props) {
 
   return (
     <>
-      <List className={classes.listclass}>
+      <List className={classes.listclass} >
         {rows.length > 0 &&
           rows.map((row, index) => {
             if (!search || !recipesID.includes(row.id)) {
@@ -454,52 +454,40 @@ function RecipesList(props) {
         {!search && rows.length < 4 && (
           <div>
             <ListItem>
-              <Grid
+            <Grid
                 spacing={3}
                 container
                 direction="row"
                 justifyContent="space-around"
                 alignItems="center"
+                
               >
-                <Grid
-                  item
-                  xs={12}
-                  md={4}
-                  sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-                >
+                <Grid item xs={12} md={4} sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
                   <Grid
-                    item
-                    xs={12}
-                    md={4}
-                    style={{ marginLeft: "30px" }}
-                    sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+                    spacing={2}
+                    container
+                    direction="column"
+                    justifyContent="space-around"
                   >
-                    <Grid
-                      spacing={2}
-                      container
-                      direction="column"
-                      justifyContent="space-around"
-                    >
-                      <Grid item xs={12}>
-                        <Typography variant="h3">
-                          <Skeleton />
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="h3">
-                          <Skeleton />
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="body">
-                          <Skeleton />
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="body">
-                          <Skeleton />
-                        </Typography>
-                      </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body">
+                        <Skeleton />
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body">
+                        <Skeleton />
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Grid>
