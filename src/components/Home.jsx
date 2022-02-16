@@ -26,9 +26,10 @@ import * as Yup from "yup";
 const useStyles = makeStyles(homeStyle);
 
 export default function Home(props) {
-  const theme = useTheme();
   const classes = useStyles();
+  const theme = useTheme();
   const fw = useMediaQuery(theme.breakpoints.up("sm"));
+  const rlw = useMediaQuery(theme.breakpoints.up("md"));
 
   const [auxRecipe, setAuxRecipe] = useState("");
   const [modalConfirmation, setModalConfirmation] = useState(false);
@@ -78,6 +79,7 @@ export default function Home(props) {
   }, []);
 
   useEffect(() => {
+    console.log("entre")
     let dataMenu = {
       price: 0.0,
       time: 0.0,
@@ -93,7 +95,7 @@ export default function Home(props) {
     dataMenu.time = dataMenu.time / recipesID.length;
     dataMenu.healthScore = dataMenu.healthScore / recipesID.length;
     setMenuStats(dataMenu);
-  }, [infoCards, recipesID]);
+  }, []);
 
   const handleChange = () => {
     setRows([]);
@@ -179,7 +181,22 @@ export default function Home(props) {
         recipesnow2.splice(recipesnow2.indexOf(Recipe), 1);
       }
     });
+    let dataMenu = {
+      price: 0.0,
+      time: 0.0,
+      healthScore: 0.0,
+    };
+    let infC = recipesnow2;
+    infC.map((Recipe) => {
+      return Object.keys(Recipe.data).map((value) => {
+        return (dataMenu[value] =
+          dataMenu[value] + parseFloat(Recipe.data[value]));
+      });
+    });
+    dataMenu.time = dataMenu.time / recipesID.length;
+    dataMenu.healthScore = dataMenu.healthScore / recipesID.length;
 
+    setMenuStats(dataMenu);
     setRecipesID(recipesnow);
     setInfoCards(recipesnow2);
     setAuxRecipe("");
@@ -267,6 +284,8 @@ export default function Home(props) {
                     className={classes.item}
                   >
                     <RecipesList
+                      fw={fw}
+                      rlw={rlw}
                       rows={infoCards}
                       classes={classes}
                       search={false}
@@ -404,30 +423,32 @@ export default function Home(props) {
                     </Box>
                   </Box>
 
-                    <Paper
-                      sx={{
-                        width: "100%",
-                        overflow: "hidden",
-                        opacity: "0.95",
-                      }}
+                  <Paper
+                    sx={{
+                      width: "100%",
+                      overflow: "hidden",
+                      opacity: "0.95",
+                    }}
+                  >
+                    <Grid
+                      container
+                      spacing={3}
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      className={classes.item}
                     >
-                      <Grid
-                        container
-                        spacing={3}
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        className={classes.item}
-                      >
-                        <RecipesList
-                          rows={rows}
-                          classes={classes}
-                          search={true}
-                          handleAddRecipe={handleAddRecipe}
-                          recipesID={recipesID}
-                        />
-                      </Grid>
-                    </Paper>
+                      <RecipesList
+                        fw={fw}
+                        rlw={rlw}
+                        rows={rows}
+                        classes={classes}
+                        search={true}
+                        handleAddRecipe={handleAddRecipe}
+                        recipesID={recipesID}
+                      />
+                    </Grid>
+                  </Paper>
                 </Paper>
               </Box>
             </Grid>

@@ -29,6 +29,8 @@ function RecipesList(props) {
     setModalConfirmation,
     setAuxRecipe,
     recipesID,
+    fw,
+    rlw,
   } = props;
 
   const [modalViewDetails, setModalViewDetails] = useState(false);
@@ -44,9 +46,10 @@ function RecipesList(props) {
     setModalViewDetails(true);
   };
 
+  console.log(rlw,fw)
   return (
     <>
-      <List className={classes.listclass} >
+      <List className={classes.listclass} style={{  maxHeight: rows.length > 0 && !rlw && "330px"}}>
         {rows.length > 0 &&
           rows.map((row, index) => {
             if (!search || !recipesID.includes(row.id)) {

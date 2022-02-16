@@ -5,6 +5,8 @@ import { makeStyles } from "@mui/styles";
 import loginStyle from "../assets/loginStyle";
 
 import * as Yup from "yup";
+import { firebase } from "../firebase";
+// import axios from "axios";
 
 const useStyles = makeStyles(loginStyle);
 
@@ -13,35 +15,10 @@ export default function Login(props) {
 
   const [modalShow, setModalShow] = useState(false);
 
-  const handleLogin = (e) => {
-    fetch("http://challenge-react.alkemy.org/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: e.email,
-        password: e.password,
-      }),
-    })
-      .then(async (response) => {
-        const isJson = response.headers
-          .get("content-type")
-          ?.includes("application/json");
-        const data = isJson && (await response.json());
-        // check for error response
-        if (!response.ok) {
-          setModalShow(true);
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-
-        localStorage.setItem("token", data.token);
-        props.setAuth(true);
-      })
-      .catch((error) => {
-        this.setState({ errorMessage: error.toString() });
-        console.error("There was an error!", error);
-      });
+  const handleLogin = async (e) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(e.email, e.password)
   };
 
   return (

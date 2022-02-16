@@ -5,10 +5,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
+import { firebase } from "../firebase";
+
 export default function NavBar(props) {
   const handleLogOut = () => {
-    localStorage.removeItem("token");
-    props.setAuth(false);
+    firebase.auth().signOut();
+    // props.setAuth(false);
   };
 
   return (
